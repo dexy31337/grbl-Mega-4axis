@@ -580,7 +580,14 @@ void report_realtime_status()
     }
   #endif
 
+  printPgmString(PSTR("|STEPS:"));
+  for (idx=0; idx<N_AXIS; idx++) {
+    printInteger(sys_position[idx]);
+    //print_uint32_base10(sys_position[idx]);
+    if (idx < (N_AXIS-1)) { serial_write(','); }
+  }
   serial_write('>');
+
   report_util_line_feed();
 }
 
