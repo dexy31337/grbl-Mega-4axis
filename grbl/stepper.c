@@ -418,7 +418,7 @@ ISR(TIMER1_COMPA_vect)
   #endif
     st.counter_y -= st.exec_block->step_event_count;
   #ifdef SEPARATE_Y_AXIS 
-    if (st.exec_block->direction_bits & ((1<<Y_DIRECTION_BIT)|(1<<Y2_DIRECTION_BIT)) { sys_position[Y_AXIS]--; }
+    if (st.exec_block->direction_bits & ((1<<Y_DIRECTION_BIT)|(1<<Y2_DIRECTION_BIT))) { sys_position[Y_AXIS]--; }
   #else
     if (st.exec_block->direction_bits & (1<<Y_DIRECTION_BIT) { sys_position[Y_AXIS]--; }
 
