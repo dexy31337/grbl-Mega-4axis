@@ -569,6 +569,11 @@
 // to ensure the laser doesn't inadvertently remain powered while at a stop and cause a fire.
 #define DISABLE_LASER_DURING_HOLD // Default enabled. Comment to disable.
 
+
+// If you have two sets of separate steppers and limits on Y axis (CNC OX - type), this options enables
+// to control them independantly. Used only for homing to ensure that X and Y axes are square to each
+// other. Having this option enabled, requires you to wire Y steppers and limits independantly.
+#define SEPARATE_Y_AXIS
 /* ---------------------------------------------------------------------------------------
    OEM Single File Configuration Option
 

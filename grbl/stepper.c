@@ -411,9 +411,18 @@ ISR(TIMER1_COMPA_vect)
     st.counter_y += st.exec_block->steps[Y_AXIS];
   #endif
   if (st.counter_y > st.exec_block->step_event_count) {
+  #ifdef SEPARATE_Y_AXIS 
+    st.step_outbits |= ((1<<Y_STEP_BIT)|(1<<Y2_STEP_BIT));
+  #else
     st.step_outbits |= (1<<Y_STEP_BIT);
+  #endif
     st.counter_y -= st.exec_block->step_event_count;
-    if (st.exec_block->direction_bits & (1<<Y_DIRECTION_BIT)) { sys_position[Y_AXIS]--; }
+  #ifdef SEPARATE_Y_AXIS 
+    if (st.exec_block->direction_bits & ((1<<Y_DIRECTION_BIT)|(1<<Y2_DIRECTION_BIT)) { sys_position[Y_AXIS]--; }
+  #else
+    if (st.exec_block->direction_bits & (1<<Y_DIRECTION_BIT) { sys_position[Y_AXIS]--; }
+
+  #endif
     else { sys_position[Y_AXIS]++; }
   }
   #ifdef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING
