@@ -41,6 +41,7 @@
   #define Z_STEP_BIT    4 // MEGA2560 Digital Pin 26
   #define A_STEP_BIT    5 // MEGA2560 Digital Pin 27
   #ifdef SEPARATE_Y_AXIS
+    #define Y1_STEP_BIT   Y_STEP_BIT
     #define Y2_STEP_BIT   6 // MEGA2560 Digital Pin 29
     #define STEP_MASK ((1<<X_STEP_BIT)|(1<<Y_STEP_BIT)|(1<<Z_STEP_BIT)|(1<<A_STEP_BIT)|(1<<Y2_STEP_BIT)) // All step bits
 
@@ -58,6 +59,7 @@
   #define A_DIRECTION_BIT   4 // MEGA2560 Digital Pin 33
   
   #ifdef SEPARATE_Y_AXIS  
+    #define Y2_DIRECTION_BIT  Y_DIRECTION_BIT
     #define Y2_DIRECTION_BIT  3 // MEGA2560 Digital Pin 34
     #define DIRECTION_MASK ((1<<X_DIRECTION_BIT)|(1<<Y_DIRECTION_BIT)|(1<<Z_DIRECTION_BIT)|(1<<A_DIRECTION_BIT)|(1<<Y2_DIRECTION_BIT)) // All direction bits
   #else
@@ -84,6 +86,7 @@
   #define LIMIT_INT_vect  PCINT0_vect 
   #define LIMIT_PCMSK     PCMSK0 // Pin change interrupt register
   #ifdef SEPARATE_Y_AXIS  
+    #define Y1_LIMIT_BIT    Y_LIMIT_BIT
     #define Y2_LIMIT_BIT    1 // MEGA2560 Digital Pin 52
     #define LIMIT_MASK ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)|(1<<Z_LIMIT_BIT)|(1<<A_LIMIT_BIT)|(1<<Y2_LIMIT_BIT)) // All limit bits
   #else

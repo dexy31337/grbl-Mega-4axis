@@ -336,6 +336,12 @@ uint8_t get_step_pin_mask(uint8_t axis_idx)
 {
   if ( axis_idx == X_AXIS ) { return((1<<X_STEP_BIT)); }
   if ( axis_idx == Y_AXIS ) { return((1<<Y_STEP_BIT)); }
+#ifdef Y1_AXIS
+  if ( axis_idx == Y1_AXIS) { return((1<<Y1_STEP_BIT)); }
+#endif
+#ifdef Y2_AXIS
+  if ( axis_idx == Y2_AXIS) { return((1<<Y2_STEP_BIT)); }
+#endif
 #if defined(A_AXIS) || defined(B_AXIS) || defined(C_AXIS)
   if ( axis_idx == Z_AXIS ) { return((1<<Z_STEP_BIT)); }
 #endif
@@ -358,6 +364,12 @@ uint8_t get_direction_pin_mask(uint8_t axis_idx)
 {
   if ( axis_idx == X_AXIS ) { return((1<<X_DIRECTION_BIT)); }
   if ( axis_idx == Y_AXIS ) { return((1<<Y_DIRECTION_BIT)); }
+#ifdef Y1_AXIS
+  if ( axis_idx == Y1_AXIS) { return((1<<Y1_DIRECTION_BIT)); }
+#endif
+#ifdef Y2_AXIS
+  if ( axis_idx == Y2_AXIS) { return((1<<Y2_DIRECTION_BIT)); }
+#endif
 #if defined(A_AXIS) || defined(B_AXIS) || defined(C_AXIS)
   if ( axis_idx == Z_AXIS ) { return((1<<Z_DIRECTION_BIT)); }
 #endif
@@ -380,6 +392,12 @@ uint8_t get_limit_pin_mask(uint8_t axis_idx)
 {
   if ( axis_idx == X_AXIS ) { return((1<<X_LIMIT_BIT)); }
   if ( axis_idx == Y_AXIS ) { return((1<<Y_LIMIT_BIT)); }
+#ifdef Y1_AXIS
+  if ( axis_idx == Y1_AXIS) { return((1<<Y1_LIMIT_BIT)); }
+#endif
+#ifdef Y2_AXIS
+  if ( axis_idx == Y2_AXIS) { return((1<<Y2_LIMIT_BIT)); }
+#endif
 #if defined(A_AXIS) || defined(B_AXIS) || defined(C_AXIS)
   if ( axis_idx == Z_AXIS ) { return((1<<Z_LIMIT_BIT)); }
 #endif
