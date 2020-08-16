@@ -25,6 +25,8 @@
 
 void printString(const char *s);
 
+void printBits(uint8_t x);
+
 void printPgmString(const char *s);
 
 void printInteger(long n);

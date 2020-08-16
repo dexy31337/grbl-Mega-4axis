@@ -28,6 +28,19 @@ void printString(const char *s)
     serial_write(*s++);
 }
 
+void printBits(uint8_t x)
+{
+  int b = 128;
+  while (b != 0) {
+      if (b <= x) {
+          x -= b;
+          printString("1");
+      } else
+          printString("0");
+      b = b >> 1;
+  }
+  printString("\n");
+}
 
 // Print a string stored in PGM-memory
 void printPgmString(const char *s)

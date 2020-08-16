@@ -90,8 +90,11 @@ typedef struct {
            counter_z
 #ifdef Y1_AXIS
           , counter_y1
+#endif
 #ifdef Y2_AXIS
           , counter_y2
+#endif
+
 #ifdef A_AXIS
           , counter_a
 #endif
@@ -314,7 +317,7 @@ ISR(TIMER1_COMPA_vect)
 
   // Set the direction pins a couple of nanoseconds before we step the steppers
   DIRECTION_PORT = (DIRECTION_PORT & ~DIRECTION_MASK) | (st.dir_outbits & DIRECTION_MASK);
-
+  printBits((DIRECTION_PORT & ~DIRECTION_MASK) | (st.dir_outbits & DIRECTION_MASK));
   // Then pulse the stepping pins
   #ifdef STEP_PULSE_DELAY
     st.step_bits = (STEP_PORT & ~STEP_MASK) | st.step_outbits; // Store out_bits to prevent overwriting.
@@ -356,8 +359,10 @@ ISR(TIMER1_COMPA_vect)
         st.counter_x = st.counter_y = st.counter_z = (st.exec_block->step_event_count >> 1);
 #ifdef A_AXIS
         st.counter_a = st.counter_x;
-#ifdef Y2_AXIS
+#endif
+#ifdef Y1_AXIS
         st.counter_y1 = st.counter_y;
+#endif
 #ifdef Y2_AXIS
         st.counter_y2 = st.counter_y;
 #endif
@@ -379,10 +384,10 @@ ISR(TIMER1_COMPA_vect)
         st.steps[C_AXIS] = st.exec_block->steps[C_AXIS] >> st.exec_segment->amass_level;
 #endif
 #ifdef Y1_AXIS
-        st.steps[Y1_AXIS] = st.exec_block[Y2_AXIS] >> st.exec_segment->amass_level;
+        st.steps[Y1_AXIS] = st.exec_block->steps[Y1_AXIS] >> st.exec_segment->amass_level;
 #endif
 #ifdef Y2_AXIS
-        st.steps[Y2_AXIS] = st.exec_block[Y2_AXIS] >> st.exec_segment->amass_level;
+        st.steps[Y2_AXIS] = st.exec_block->steps[Y2_AXIS] >> st.exec_segment->amass_level;
 #endif
 
       #endif
@@ -419,6 +424,20 @@ ISR(TIMER1_COMPA_vect)
     if (st.exec_block->direction_bits & (1<<X_DIRECTION_BIT)) { sys_position[X_AXIS]--; }
     else { sys_position[X_AXIS]++; }
   }
+  //Test newY
+  #ifdef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING
+    st.counter_y += st.steps[Y_AXIS];
+  #else
+    st.counter_y += st.exec_block->steps[Y_AXIS];
+  #endif
+  if (st.counter_y > st.exec_block->step_event_count) {
+    st.step_outbits |= ((1<<Y_STEP_BIT)|(1<<Y2_STEP_BIT));
+    st.counter_y -= st.exec_block->step_event_count;
+    if (st.exec_block->direction_bits & ((1<<Y_DIRECTION_BIT)|(1<<Y2_DIRECTION_BIT))) { sys_position[Y_AXIS]--; sys_position[Y2_AXIS]--; }
+    else { sys_position[Y_AXIS]++; sys_position[Y2_AXIS]++; }
+  }
+
+  /*
   //General Y
   #ifdef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING
     st.counter_y += st.steps[Y_AXIS];
@@ -435,12 +454,13 @@ ISR(TIMER1_COMPA_vect)
   #ifdef SEPARATE_Y_AXIS 
     if (st.exec_block->direction_bits & ((1<<Y_DIRECTION_BIT)|(1<<Y2_DIRECTION_BIT))) { sys_position[Y_AXIS]--; }
   #else
-    if (st.exec_block->direction_bits & (1<<Y_DIRECTION_BIT) { sys_position[Y_AXIS]--; }
+    if (st.exec_block->direction_bits & (1<<Y_DIRECTION_BIT)) { sys_position[Y_AXIS]--; }
 
   #endif
     else { sys_position[Y_AXIS]++; }
   }
   //END
+  /*
   //Special Y1
 #ifdef Y1_AXIS
   #ifdef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING
@@ -451,7 +471,7 @@ ISR(TIMER1_COMPA_vect)
   if (st.counter_y1 > st.exec_block->step_event_count) {
      st.step_outbits |= (1<<Y1_STEP_BIT);
     st.counter_y1 -= st.exec_block->step_event_count;
-    if (st.exec_block->direction_bits & (1<<Y1_DIRECTION_BIT) { sys_position[Y1_AXIS]--; }
+    if (st.exec_block->direction_bits & (1<<Y1_DIRECTION_BIT)) { sys_position[Y1_AXIS]--; }
     else { sys_position[Y1_AXIS]++; }
   }
 #endif
@@ -466,11 +486,11 @@ ISR(TIMER1_COMPA_vect)
   if (st.counter_y2 > st.exec_block->step_event_count) {
     st.step_outbits |= (1<<Y2_STEP_BIT);
     st.counter_y2 -= st.exec_block->step_event_count;
-    if (st.exec_block->direction_bits & (1<<Y2_DIRECTION_BIT) { sys_position[Y2_AXIS]--; }
+    if (st.exec_block->direction_bits & (1<<Y2_DIRECTION_BIT)) { sys_position[Y2_AXIS]--; }
     else { sys_position[Y2_AXIS]++; }
   }
 #endif
-  //END
+  //END*/
   #ifdef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING
     st.counter_z += st.steps[Z_AXIS];
   #else

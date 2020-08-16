@@ -42,11 +42,10 @@
   #define A_STEP_BIT    5 // MEGA2560 Digital Pin 27
   #ifdef SEPARATE_Y_AXIS
     #define Y1_STEP_BIT   Y_STEP_BIT
-    #define Y2_STEP_BIT   6 // MEGA2560 Digital Pin 29
+    #define Y2_STEP_BIT   6 // MEGA2560 Digital Pin 28
     #define STEP_MASK ((1<<X_STEP_BIT)|(1<<Y_STEP_BIT)|(1<<Z_STEP_BIT)|(1<<A_STEP_BIT)|(1<<Y2_STEP_BIT)) // All step bits
-
   #else
-    #define STEP_MASK ((1<<X_STEP_BIT)|(1<<Y_STEP_BIT)|(1<<Z_STEP_BIT)|(1<<A_STEP_BIT)|(1<<Y2_STEP_BIT)) // All step bits
+    #define STEP_MASK ((1<<X_STEP_BIT)|(1<<Y_STEP_BIT)|(1<<Z_STEP_BIT)|(1<<A_STEP_BIT)) // All step bits
   #endif
 
   // Define step direction output pins. NOTE: All direction pins must be on the same port.
@@ -59,7 +58,7 @@
   #define A_DIRECTION_BIT   4 // MEGA2560 Digital Pin 33
   
   #ifdef SEPARATE_Y_AXIS  
-    #define Y2_DIRECTION_BIT  Y_DIRECTION_BIT
+    //#define Y2_DIRECTION_BIT  Y_DIRECTION_BIT
     #define Y2_DIRECTION_BIT  3 // MEGA2560 Digital Pin 34
     #define DIRECTION_MASK ((1<<X_DIRECTION_BIT)|(1<<Y_DIRECTION_BIT)|(1<<Z_DIRECTION_BIT)|(1<<A_DIRECTION_BIT)|(1<<Y2_DIRECTION_BIT)) // All direction bits
   #else
@@ -123,10 +122,10 @@
   #define CONTROL_MASK      ((1<<CONTROL_RESET_BIT)|(1<<CONTROL_FEED_HOLD_BIT)|(1<<CONTROL_CYCLE_START_BIT)|(1<<CONTROL_SAFETY_DOOR_BIT))
 
   // Define probe switch input pin.
-  #define PROBE_DDR       DDRK
-  #define PROBE_PIN       PINK
-  #define PROBE_PORT      PORTK
-  #define PROBE_BIT       7  // MEGA2560 Analog Pin 15
+  #define PROBE_DDR       DDRH
+  #define PROBE_PIN       PINH
+  #define PROBE_PORT      PORTH
+  #define PROBE_BIT       3  // MEGA2560 Digital Pin 6
   #define PROBE_MASK      (1<<PROBE_BIT)
 
   // Advanced Configuration Below You should not need to touch these variables
